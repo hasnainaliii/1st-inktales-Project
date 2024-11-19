@@ -43,7 +43,7 @@ function Navbar() {
             SIGN IN
           </Link>
 
-          <Link className="btn-light py-2 hidden md:block " to="/signout">
+          <Link className="btn-light py-2 hidden md:block " to="/signup">
             SIGN UP
           </Link>
         </div>

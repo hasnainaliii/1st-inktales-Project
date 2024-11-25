@@ -15,7 +15,7 @@ function InputBox({ name, type, id, value, placeholder, icon }) {
         id={id}
         className="input-box"
       />
-      <i class={`fi ${icon}  input-icon`}></i>
+      <i className={`fi ${icon}  input-icon`}></i>
 
       {type === "password" ? (
         <i

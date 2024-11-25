@@ -1,13 +1,32 @@
 import AnimationWrapper from "../../common/animation/AnimationWrapper";
 import InputBox from "../../components/inputBox/InputBox";
 import googleIcon from "../../imgs/google.png";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { UserAuthSubmit } from "../../api/UserAuthSubmit";
+import { useAuthContext } from "../../context/UserAuthContext";
 
 function UserAuth({ type }) {
-  return (
+  const {
+    userAuth: { access_token },
+    setUserAuth,
+  } = useAuthContext();
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    let form = new FormData(formSignIn);
+    let formData = {};
+    for (let [key, value] of form.entries()) {
+      formData[key] = value;
+    }
+    UserAuthSubmit(type, formData, setUserAuth);
+  }
+
+  return access_token ? (
+    <Navigate to="/" />
+  ) : (
     <AnimationWrapper keyValue={type}>
       <section className="h-cover flex items-center justify-center">
-        <form className="w-[80%] max-w-[400px]">
+        <form id="formSignIn" className="w-[80%] max-w-[400px]">
           <h1 className="text-4xl font-gelasio capitalize mb-24 ">
             {type === "signIn" ? "Welcome back" : "Join us today"}
           </h1>
@@ -34,7 +53,11 @@ function UserAuth({ type }) {
             placeholder="Password"
             icon="fi-rr-key"
           />
-          <button className="btn-dark center mt-14 " type="submit">
+          <button
+            onClick={handleSubmit}
+            className="btn-dark center mt-14 "
+            type="submit"
+          >
             {type}
           </button>
           <div className="relative w-full flex items-center gap-2 my-10 opacity-10 uppercase text-black font-bold ">
